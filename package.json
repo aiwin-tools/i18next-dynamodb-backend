@@ -1,10 +1,9 @@
 {
   "name": "i18next-dynamodb-backend",
   "version": "1.0.0",
-  "description": "i18next node.js backend layer for i18next using AWS DynamoDB",
+  "description": "i18next backend plugin for i18next using AWS DynamoDB",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf dist && mkdirp dist",
     "docs": "node_modules/jsdoc/jsdoc.js -c jsdoc.json -R ./README.md",
     "copy": "cp ./dist/umd/i18nextDynamoDBBackend.min.js ./i18nextDynamoDBBackend.min.js && cp ./dist/umd/i18nextDynamoDBBackend.js ./i18nextDynamoDBBackend.js",
