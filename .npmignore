@@ -10,3 +10,4 @@ out/
 bower.json
 gulpfile.js
 karma.conf.js
+.idea/
