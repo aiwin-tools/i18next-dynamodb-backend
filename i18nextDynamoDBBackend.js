@@ -87,9 +87,12 @@ var I18NextDynamoDbBackend = function () {
           Key: (_Key = {}, _defineProperty(_Key, hash, language), _defineProperty(_Key, range, namespace), _Key),
           AttributesToGet: [translationsKey]
         };
-        var getItemPromise = documentClient.get(getDocumentQuery).promise();
-        getItemPromise.catch(callback).then(function (data) {
-          return callback(null, data.Item && data.Item[translationsKey]);
+        documentClient.get(getDocumentQuery, function (err, data) {
+          if (err) {
+            callback(err);
+          } else {
+            callback(null, data.Item && data.Item[translationsKey]);
+          }
         });
       }
     }
@@ -154,14 +157,17 @@ var I18NextDynamoDbBackend = function () {
           ExpressionAttributeValues: ExpressionAttributeValues,
           Select: 'ALL'
         };
-        var documentsQuery = documentClient.query(getDocumentsQuery).promise();
-        documentsQuery().catch(callback).then(function (data) {
-          var response = {};
-          data.Items.forEach(function (item) {
-            response[item.language] = _defineProperty({}, range, {});
-            response[item.language][range] = item.translations;
-          });
-          callback(null, response);
+        documentClient.query(getDocumentsQuery, function (err, data) {
+          if (err) {
+            callback(err);
+          } else {
+            var response = {};
+            data.Items.forEach(function (item) {
+              response[item.language] = _defineProperty({}, range, {});
+              response[item.language][range] = item.translations;
+            });
+            callback(null, response);
+          }
         });
       }
     }

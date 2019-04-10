@@ -53,10 +53,13 @@ class I18NextDynamoDbBackend {
         },
         AttributesToGet: [translationsKey]
       };
-      const getItemPromise = documentClient.get(getDocumentQuery).promise();
-      getItemPromise
-        .catch(callback)
-        .then(data => callback(null, data.Item && data.Item[translationsKey]));
+      documentClient.get(getDocumentQuery, (err, data) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, data.Item && data.Item[translationsKey]);
+        }
+      });  
     }
 
   }
@@ -113,17 +116,18 @@ class I18NextDynamoDbBackend {
         ExpressionAttributeValues,
         Select: 'ALL'
       };
-      const documentsQuery = documentClient.query(getDocumentsQuery).promise();
-      documentsQuery()
-        .catch(callback)
-        .then((data) => {
+      documentClient.query(getDocumentsQuery, (err, data) => {
+        if (err) {
+          callback(err);
+        } else {
           const response = {};
           data.Items.forEach((item) => {
             response[item.language] = { [range]: {} };
             response[item.language][range] = item.translations;
           });
           callback(null, response);
-        });
+        }
+      });
     }
   }
 }
