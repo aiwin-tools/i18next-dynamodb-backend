@@ -1,6 +1,6 @@
 {
   "name": "i18next-dynamodb-backend",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "i18next backend plugin for i18next using AWS DynamoDB",
   "main": "index.js",
   "scripts": {
